@@ -1,8 +1,29 @@
 # Encode-Decode-1
 
+> [!Note]
+> This encyrption and decryption method will keep updating to increase security. Currently the latest version is Ming's Mosaic v2.2
+> 
+> Do not use this code to harm anyone, me and my coding will not be responsible for any bad actions you take
+>
+> This code is open-source; Though I've made this code, anyone can use, edit, and share the code, and they do not have to credit anyone
+
+## General information
+
 I've named my first ever cipher-decipher as "Ming's Mosaic". It won't beat RSA, but it's something...
 
 In essence, it's a layered encryption tool that scrambles and unscrambles messages using a custom blend of classic ciphers.
+
+I wanted to make my own sort tool to encrypt and decrypt, because I was bored.
+
+How to handle the keys? - Well I was thinking that users will add numbers or text manually at the start and end of their ciphertext to indicate who's speaking in the conversation, and what they key for vigenere and caesar is, but obviously that's a hassle and dangerous, so I'm trying to make this more robust in future version.
+
+## Version History
+
+- [x] ```Ming's Mosaic v1``` (Basically just a caesar cipher)
+- [x] ```Ming's Mosaic v2.1``` (Applied vigenere cipher)
+- [x] ```Ming's Mosaic v2.2``` (Aded a caesar cipher after vigenere)
+- [ ] ```Ming's Mosaic v3``` (A cipher added before ASCII encoding)
+- [ ] ```Ming's Mosaic v4``` ()
 
 ## How it works
 
@@ -51,10 +72,3 @@ In essence, it's a layered encryption tool that scrambles and unscrambles messag
 4) Converts each of the hex-code into its denary equivalent from ASCII (eg 36 = 6)
 5) Converts each decimal number into its ASCII equivalent for denary (eg 65 = "A")
 6) Mashes all leters together and outputs it (hence the output is also just one massive word)
-
-## Version History
-
-- [x] ```Ming's Mosaic v1``` (Basically just a caesar cipher)
-- [x] ```Ming's Mosaic v2.1``` (Applied vigenere cipher)
-- [x] ```Ming's Mosaic v2.2``` (Aded a caesar cipher after vigenere)
-- [ ] ```Ming's Mosaic v3``` (A cipher added before ASCII encoding)
