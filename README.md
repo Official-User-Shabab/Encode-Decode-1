@@ -1,74 +1,71 @@
-# Encode-Decode-1
+# Ming's Mosaic
 
-> [!Note]
-> This encyrption and decryption method will keep updating to increase security. Currently the latest version is Ming's Mosaic v2.2
+> [!NOTE]  
+> This encryption and decryption method is an ongoing project to explore cryptography and increase security. The currently provided latest version is **Ming's Mosaic v2.2**.
 > 
-> Do not use this code to harm anyone, me and my coding will not be responsible for any bad actions you take
->
-> This code is open-source; Though I've made this code, anyone can use, edit, and share the code, and they do not have to credit anyone
+> **Disclaimer:** This tool was created for educational and recreational purposes. Do not use this code for malicious activities. The author is not responsible for any misuse.
+> 
+> **License:** This code is entirely open-source. Anyone is free to use, edit, and share the code—no credit required!
 
-## General information
+## 📖 General Information
 
-I've named my first ever cipher-decipher as "Ming's Mosaic". It won't beat RSA, but it's something...
+I named my first-ever cipher-decipher tool **"Ming's Mosaic"**. While it might not beat RSA encryption, it's a fun, robust project born out of curiosity! 
 
-In essence, it's a layered encryption tool that scrambles and unscrambles messages using a custom blend of classic ciphers.
+In essence, it's a layered encryption tool that scrambles and unscrambles messages using a custom blend of data obfuscation and classic ciphers.
 
-I wanted to make my own sort tool to encrypt and decrypt, because I was bored.
-
-How to handle the keys? - Well I was thinking that users will add numbers or text manually at the start and end of their ciphertext to indicate who's speaking in the conversation, and what they key for vigenere and caesar is, but obviously that's a hassle and dangerous, so I'm trying to make this more robust in future version.
-
-## Version History
-
-- [x] ```Ming's Mosaic v1``` (Basically just a caesar cipher)
-- [x] ```Ming's Mosaic v2.1``` (Applied vigenere cipher)
-- [x] ```Ming's Mosaic v2.2``` (Aded a caesar cipher after vigenere)
-- [ ] ```Ming's Mosaic v3``` (A cipher added before ASCII encoding)
-- [ ] ```Ming's Mosaic v4``` ()
-
-## How it works
-
-### Encrypting
-
-#### Encryption (Scrambling)
-
-1. **Letter-to-Character Conversion**:
-   Each letter in the input is converted to a unique sequence using its ASCII code and a custom A–J digit-letter mapping.
-2. **Caesar Cipher #1**:
-   The resulting characters are encrypted using a Caesar cipher with a user-defined shift value.
-3. **Vigenère Cipher**:
-   The output is further encrypted using a Vigenère cipher with a user-provided keyword.
-4. **Caesar Cipher #2 (Final Layer)**:
-   One last Caesar cipher is applied using a shift of `(user_shift + length_of_key)` to enhance security.
-
-#### ASCII Encoding
-
-1) Splits all letters individually
-2) Converts each letter into its ASCII equivalent for denary (eg "A" = 65)
-3) Converts each of the individual numbers into its hex-code from ASCII (eg '6' = 36)
-4) Swaps the hex-codes around (eg 36 becomes 63)
-5) Hence puts the hex-codes for the word together (eg "A" = 6353)
-6) Matches each individual number from 0-9 with A-J
+**Future Considerations for Keys:** Currently, users input the shifts and keys manually via the terminal. I previously considered having users append numbers/text at the start or end of the ciphertext to indicate the keys and sender, but that is both a hassle and a security vulnerability. Future versions will focus on making key handling much more robust and automated.
 
 ---
 
-### Decrypting
+## 🚀 Version History
 
-#### Decryption (Unscrambling)
+- [x] **Ming's Mosaic v1:** Base logic implementation (Standard Caesar Cipher).
+- [x] **Ming's Mosaic v2.1:** Added a Vigenère cipher layer.
+- [x] **Ming's Mosaic v2.2:** Added a secondary Caesar cipher after the Vigenère layer for compounded scrambling.
+- [ ] **Ming's Mosaic v3:** Implement a custom cipher *before* the ASCII encoding step.
+- [ ] **Ming's Mosaic v4:** *TBD*
 
-1. **Caesar Cipher #2 (Reverse)**:
-   The final Caesar layer is undone using the same `(shift + key_length)` value.
-2. **Vigenère Decryption**:
-   The Vigenère cipher is reversed using the same keyword.
-3. **Caesar Cipher #1 (Reverse)**:
-   The original Caesar cipher is reversed using the user's shift.
-4. **Character-to-Letter Conversion**:
-   The encoded characters are converted back to readable letters using the inverse A–J digit-letter mapping.
+---
 
-#### ASCII Decoding
+## How It Works
 
-1) Matches each individual letter from A-J with 0-9
-2) Hence finds the nibbled-hex-codes for the word together (eg 6353)
-3) Swaps the coupled hex-codes around (eg 63 becomes 36)
-4) Converts each of the hex-code into its denary equivalent from ASCII (eg 36 = 6)
-5) Converts each decimal number into its ASCII equivalent for denary (eg 65 = "A")
-6) Mashes all leters together and outputs it (hence the output is also just one massive word)
+Ming's Mosaic passes your text through a strict pipeline of conversions and ciphers. Here is the exact data flow for **v2.2**:
+
+### Encrypting (Scrambling)
+
+1. **Custom ASCII Encoding (`ltoc`)**
+   * **Split & Convert:** Splits the plaintext into individual letters and converts each to its denary ASCII equivalent (e.g., `"A"` = `65`).
+   * **Hex Manipulation:** Takes the individual digits (e.g., `6` and `5`), treats them as characters, and finds their hex equivalents (e.g., `'6'` = `36`).
+   * **Swap:** Swaps the hex-code digits around (e.g., `36` becomes `63`).
+   * **Concatenate:** Combines the swapped hex-codes for the character (e.g., `"A"` becomes `6353`).
+   * **Letter Mapping:** Maps the resulting numbers (0-9) to letters (A-J). For example, `6353` becomes `GDFD`.
+
+2. **Caesar Cipher #1**
+   * The A-J character string is shifted using a standard Caesar cipher based on a user-defined numeric `shift`.
+
+3. **Vigenère Cipher**
+   * The output from the Caesar cipher is scrambled further using a Vigenère cipher, driven by a user-provided `keyword`.
+
+4. **Caesar Cipher #2 (Final Layer)**
+   * One last Caesar cipher is applied to the data. To increase security, this shift is calculated as `(user_shift + length_of_keyword)`.
+
+---
+
+### Decrypting (Unscrambling)
+
+To decrypt, the program runs the encryption pipeline in exact reverse:
+
+1. **Reverse Caesar Cipher #2**
+   * Undoes the final layer using a reverse shift of `-(user_shift + length_of_keyword)`.
+
+2. **Reverse Vigenère Cipher**
+   * Reverses the Vigenère shift using the exact same `keyword` provided during encryption.
+
+3. **Reverse Caesar Cipher #1**
+   * Undoes the foundational Caesar shift using the original user-defined `shift`.
+
+4. **Custom ASCII Decoding (`ctol`)**
+   * **Digit Mapping:** Translates the A-J letters back into their 0-9 numeric equivalents (e.g., `GDFD` becomes `6353`).
+   * **Chunking & Swapping:** Breaks the numbers into pairs (e.g., `63` and `53`) and swaps them back to their original hex forms (e.g., `36` and `35`).
+   * **Hex to Denary:** Converts the hex values back into their original ASCII digits (e.g., `36` = `6`, `35` = `5`).
+   * **Reassembly:** Joins the digits to form the original decimal ASCII value (`65`) and translates it back to the readable character (`"A"`). All letters are mashed together into the final output.
